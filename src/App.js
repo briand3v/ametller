@@ -1,23 +1,37 @@
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import RootNavigator from './routers/rootNavigator.router';
+import Navbar from './NavBar/components/NavBar';
+import { useThemeApp } from './hooks/ThemeApp/useThemeApp';
 
 function App() {
+  const { themeColor} = useThemeApp();
+
+  const themeMui = createMuiTheme({
+    palette: {
+      primary: {
+        main: themeColor === 'light' ? '#fff' : '#1d2533'
+      },
+      secondary: {
+        main: themeColor === 'light' ? '#fff' : '#1d2533'
+      },
+      background: {
+        default: themeColor === 'light' ? '#fff' : '#1d2533'
+      },
+      text: {
+        primary: themeColor === 'light' ? '#1d2533' : '#fff',
+        secondary: themeColor === 'light' ? '#3b4352' : '#c1c1c1'
+      }
+    },
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ThemeProvider theme={themeMui}>
+        <Navbar />
+        <RootNavigator />
+      </ThemeProvider>
     </div>
   );
 }
